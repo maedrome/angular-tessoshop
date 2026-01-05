@@ -1,0 +1,98 @@
+<!-- <div class="join flex justify-center items-center">
+    @for(page of pagesList(); track page){
+        <button class="join-item btn" 
+            [ngClass]="{'btn-primary': page==activePage()}" 
+            [routerLink]="[]" [queryParams]="{page: page}"
+            (click)="activePage.set(page)"
+            
+            >{{page}}</button>
+    }@empty{
+    }
+</div> -->
+
+<!-- <div class="join flex justify-center items-center gap-1">
+  <button 
+    class="join-item btn px-2" 
+    [disabled]="!hasPrevious() || loading()"
+    [routerLink]="[]" 
+    [queryParams]="{page: previousPageNumber()}"
+    queryParamsHandling="merge">
+    <svg class="h-5 w-5 fill-current rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path>
+    </svg>
+  </button>
+  
+  @for(page of visiblePages(); track page) {
+    <button 
+      class="join-item btn" 
+      [ngClass]="{'btn-primary': page === currentPage()}" 
+      [disabled]="loading()"
+      [routerLink]="[]" 
+      [queryParams]="{page: page}"
+      queryParamsHandling="merge">
+      {{page}}
+    </button>
+  }
+  
+  @if(showLastPage()) {
+    <span class="join-item btn btn-disabled">...</span>
+    <button 
+      class="join-item btn" 
+      [disabled]="loading()"
+      [routerLink]="[]" 
+      [queryParams]="{page: pages()}"
+      queryParamsHandling="merge">
+      {{pages()}}
+    </button>
+  }
+  
+  <button 
+    class="join-item btn px-2" 
+    [disabled]="!hasNext() || loading()"
+    [routerLink]="[]" 
+    [queryParams]="{page: nextPageNumber()}"
+    queryParamsHandling="merge">
+    <svg class="h-5 w-5 fill-current rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+      <path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path>
+    </svg>
+  </button>
+</div> -->
+
+<div class="join flex justify-center items-center">
+  <button 
+    class="join-item btn px-1 max-w-[34px] sm:px-2 sm:min-w-[42px]" 
+    [disabled]="!hasPrevious()"
+    [routerLink]="[]" 
+    [queryParams]="{page: previousPageNumber()}"
+  >
+    <svg class="h-5 w-5 fill-current rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M15.41,16.58L10.83,12L15.41,7.41L14,6L8,12L14,18L15.41,16.58Z"></path></svg>
+  </button>
+  
+  
+  @for(item of visiblePages(); track $index) {
+    @if(isNumber(item)) {
+      <button 
+        class="join-item btn max-sm:px-3" 
+        [ngClass]="{'btn-primary': item === currentPage()}" 
+        [routerLink]="[]" 
+        [queryParams]="{page: item}"
+        queryParamsHandling="merge">
+        {{item}}
+      </button>
+    }@else {
+      <span class="join-item btn max-sm:px-3 max-w-[34px] btn-disabled pointer-events-none sm:max-w-[42px]">...</span>
+    }
+      
+  }
+  
+  
+  <button 
+    class="join-item btn px-1 max-w-[34px] sm:px-2 sm:min-w-[42px]" 
+    [disabled]="!hasNext()"
+    [routerLink]="[]" 
+    [queryParams]="{page: nextPageNumber()}">
+    <svg class="h-5 w-5 fill-current rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M8.59,16.58L13.17,12L8.59,7.41L10,6L16,12L10,18L8.59,16.58Z"></path></svg>
+  </button>
+  
+  
+</div>

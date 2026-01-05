@@ -1,0 +1,25 @@
+
+@if(productResource.isLoading()){
+    <div class="flex justify-center items-center h-screen">
+        <span class="loading loading-spinner loading-lg"></span>
+    </div>
+}
+@if (productResource.hasValue()){
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 sm:gap-8">
+        <div class="lg:col-span-2">
+            <product-carousel [images]="productResource.value().images"></product-carousel>
+        </div>
+        <div class="lg:col-span-3 text-pretty">
+            <h2 class="text-3xl">{{productResource.value().title}}</h2>
+            <div class="divider"></div>
+            <div class="text-2xl font-montserrat mb-4">{{productResource.value().price | currency}}</div>
+            <div class="flex gap-2 mb-2 items-center flex-wrap">
+                <span class="font-semibold">Available Sizes:</span> 
+                @for(size of productResource.value().sizes; track size){
+                    <span class="badge">{{size}}</span>
+                }
+            </div>
+            <p>{{productResource.value().description}}</p>
+        </div>
+    </div>
+}

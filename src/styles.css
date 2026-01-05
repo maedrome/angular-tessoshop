@@ -1,1 +1,22 @@
-/* You can add global styles to this file, and also import other style files */
+@font-face {  
+    font-family: Montserrat;
+    src: url("../public/assets/fonts/montserrat-alternates/MontserratAlternates-Medium.ttf");
+}
+@import "tailwindcss";
+@theme {  
+
+    --font-montserrat: "Montserrat", "sans-serif";
+    --animate-fadeIn: fadeIn 0.15s ease-in-out;
+    @keyframes fadeIn {
+        0% {opacity: 0};
+        100% {opacity: 1}
+    }
+}
+
+@plugin "daisyui" {
+    themes: light --default, dark --prefersdark, corporate;
+  }
+
+html:root:has(.drawer:not(.drawer-open) > .drawer-toggle:checked) {
+  scrollbar-gutter: auto !important;
+}

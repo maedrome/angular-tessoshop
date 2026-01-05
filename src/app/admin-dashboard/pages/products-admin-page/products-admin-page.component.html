@@ -1,0 +1,55 @@
+<div class="lg:min-h-19 flex flex-col lg:justify-end lg:pb-2">
+    <h1 class="text-2xl font-bold">Products List</h1>
+    <h3>
+        @if(productsResource.isLoading()){
+            <span class="loading loading-dots loading-xs text-accent"></span>
+        }
+        <span class="text-accent text-lg font-bold">{{productsResource.value()?.count}}</span>   
+    </h3>
+</div>
+<div class="divider hidden lg:flex lg:mt-0"></div>
+<div class="flex justify-between mb-7 sm:mb-8">
+    <div class="flex justify-end items-end">
+        <button class="btn" [routerLink]="['/admin/products/new']" >Add Product
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3" viewBox="0 0 24 24">
+	            <path fill="currentColor" d="M11.883 3.007L12 3a1 1 0 0 1 .993.883L13 4v7h7a1 1 0 0 1 .993.883L21 12a1 1 0 0 1-.883.993L20 13h-7v7a1 1 0 0 1-.883.993L12 21a1 1 0 0 1-.993-.883L11 20v-7H4a1 1 0 0 1-.993-.883L3 12a1 1 0 0 1 .883-.993L4 11h7V4a1 1 0 0 1 .883-.993L12 3z" stroke-width="0.4" stroke="#000" />
+            </svg>
+        </button>
+    </div>
+    <fieldset class="fieldset py-0">
+            <legend class="fieldset-legend">Show per page</legend>
+            <select 
+                [value]="paginationService.showPerPage()" 
+                [disabled]="productsResource.isLoading()"
+                class="select select-neutral border-gray-300 focus:outline-0! focus-within:outline-0! focus:border-black! focus-within:border-black!" 
+                #selectPerPage 
+                (change)="onLimitChange(+selectPerPage.value)">
+                <option value=10>10</option>
+                <option value=20>20</option>
+                <option value=50>50</option>
+                <option value=100>100</option>
+            </select>
+    </fieldset>
+</div>
+
+<products-table [products]="productsResource.value()?.products ?? []" productRoute="/admin/products"></products-table>
+<div class="flex w-fit items-end mx-auto mt-7 sm:mt-8 mb-4">
+        <!-- @if(productsResource.isLoading()){
+            <pagination [pages]="paginationService.pages()" [currentPage]="paginationService.pageQueryParam()" [loading]="productsResource.isLoading()"></pagination>
+        }
+        <pagination [pages]="productsResource.value()?.pages ?? 0" [currentPage]="paginationService.pageQueryParam()"></pagination>
+        <fieldset class="fieldset py-0 ml-4">
+            <legend class="fieldset-legend">Show per page</legend>
+            <select [value]="paginationService.showPerPage()" class="select select-neutral border-gray-300 focus:outline-0! focus-within:outline-0! focus:border-black! focus-within:border-black!" #selectPerPage (change)="onLimitChange(+selectPerPage.value)">
+                <option value=10>10</option>
+                <option value=20>20</option>
+                <option value=50>50</option>
+                <option value=100>100</option>
+            </select>
+        </fieldset> -->
+        <pagination 
+            [pages]="paginationService.pages()" 
+            [currentPage]="paginationService.pageQueryParam()">
+        </pagination>
+        
+</div>

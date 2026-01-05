@@ -1,0 +1,13 @@
+<h1 class="text-3xl font-bold font-montserrat">{{gender() | i18nSelect:titleMap}}</h1>
+<h2 class="text-xl mb-5 text-secondary font-semibold">{{gender() | i18nSelect:headerMap}}</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-2 gap-3">
+    @for(product of productsResource.value()?.products; track product.id){
+        <product-card [product]="product"></product-card>
+    }@empty {
+        <p>No products found.</p>
+    }
+</div>
+<div class="my-7"> 
+    <pagination [pages]="productsResource.value()?.pages ?? 0" [currentPage]="paginationService.pageQueryParam()"></pagination>
+</div>

@@ -1,0 +1,143 @@
+<h1 class="text-2xl font-bold lg:min-h-19 flex flex-col justify-center lg:pt-2">{{ product().title }}</h1>
+<div class="divider lg:mt-0"></div>
+
+<form class="grid grid-cols-1 sm:grid-cols-2 gap-4" [formGroup]="productForm" autocomplete="off" (ngSubmit)="onSubmit()">
+  <!-- General Information -->
+  <div class="flex flex-col gap-2">
+    <h2 class="text-2xl font-bold h-12">Product Details</h2>
+    <input
+      type="text"
+      placeholder="Title"
+      class="input input-bordered w-full focus:outline-0! focus-within:outline-0!"
+      formControlName="title"
+      [class]="{'border-red-500': productForm.get('title')?.errors ?? false}"
+    />
+    <div class="-mt-2">
+      <form-error-label [control]="productForm.get('title')!"></form-error-label>
+    </div> 
+    <input 
+      type="text" 
+      placeholder="Slug" 
+      class="input input-bordered w-full focus:outline-0! focus-within:outline-0!" 
+      formControlName="slug"
+      [class]="{'border-red-500': productForm.get('slug')?.errors ?? false}"  
+    />
+    <div class="-mt-1">
+      <form-error-label [control]="productForm.get('slug')!"></form-error-label>
+    </div>
+    <textarea
+      class="textarea textarea-bordered focus:outline-0! focus-within:outline-0!"
+      placeholder="Description"
+      rows="6"
+      formControlName="description"
+      [class]="{'border-red-500': productForm.get('description')?.errors ?? false}"
+    ></textarea>
+    <div class="-mt-1">
+      <form-error-label [control]="productForm.get('description')!"></form-error-label>
+    </div>
+    <h2 class="text-lg font-bold">Sales Information</h2>
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+      <div>
+        <input
+        type="number"
+        placeholder="Price"
+        class="input input-bordered w-full focus:outline-0! focus-within:outline-0!"
+        formControlName="price"
+        [class]="{'border-red-500': productForm.get('price')?.errors ?? false}"
+        />
+        <form-error-label [control]="productForm.get('price')!"></form-error-label>
+        
+      </div>
+      <div>
+        <input
+        type="number"
+        placeholder="Stock"
+        class="input input-bordered w-full focus:outline-0! focus-within:outline-0!"
+        formControlName="stock"
+        [class]="{'border-red-500': productForm.get('stock')?.errors ?? false}"
+        />
+        <form-error-label [control]="productForm.get('stock')!"></form-error-label>
+      </div>
+    </div>
+
+    <!-- tags -->
+    <input 
+      type="text" 
+      placeholder="Tags" 
+      class="input input-bordered w-full focus:outline-0! focus-within:outline-0!" 
+      formControlName="tags"
+      [class]="{'border-red-500': productForm.get('tags')?.errors ?? false}"    
+      />
+      <div class="-mt-1">
+        <form-error-label [control]="productForm.get('tags')!"></form-error-label>
+      </div>
+
+    <!-- Botones para el género -->
+    <div class="grid grid-cols-4 gap-2">
+      @for(gender of genders; track gender; let i = $index){
+        <button 
+          type="button" 
+          class="btn btn-sm font-montserrat" 
+          [class]="{
+            'btn-info': this.productForm.value.gender=='men' && gender=='men',
+            'btn-error': this.productForm.value.gender=='women'&& gender=='women',
+            'btn-warning': this.productForm.value.gender=='kid'&& gender=='kid',
+            'btn-accent': this.productForm.value.gender=='unisex'&& gender=='unisex'
+          }"
+          (click)="productForm.patchValue({gender: gender})"
+          >{{gender | i18nSelect:genderMap | titlecase }}</button>
+      }
+      <!-- <button class="btn btn-sm btn-outline">Masculino</button> -->
+      <!-- <button type="button" class="btn btn-sm btn-primary">Men</button>
+      <button type="button" class="btn btn-sm btn-secondary">Women</button>
+      <button type="button" class="btn btn-sm btn-accent">Kids</button>
+      <button type="button" class="btn btn-sm btn-neutral">Unisex</button> -->
+    </div>
+
+    <!-- <select class="select select-bordered w-full">
+      <option value="male">Masculino</option>
+      <option value="female">Femenino</option>
+      <option value="unisex">Unisex</option>
+    </select> -->
+
+    <!-- Sizes -->
+    <div class="grid grid-cols-6 gap-2">
+      @for (size of sizes; track size) {
+      <button class="btn btn-sm font-bold tracking-wider" type="button" (click)="toggleSize(size)" [class]="productForm.value.sizes?.includes(size) ? 'btn-primary' : 'btn-outline hover:bg-neutral-200 hover:border-neutral-700'">{{ size }}</button>
+      }
+    </div>
+  </div>
+
+  <!-- Imágenes -->
+  <div class="flex flex-col gap-2">
+    <div class="flex justify-end h-12">
+      <button class="btn btn-secondary" type="submit">
+        <!-- <span class="loading loading-spinner loading-sm"></span> -->
+
+        Save
+      </button>
+    </div>
+
+    <product-carousel [images]="imagesToCarousel()"></product-carousel>
+    
+    <input 
+      type="file" 
+      multiple accept="image/*" 
+      class="file-input file-input-bordered w-full sm:w-11/12 mt-4 self-end" 
+      (change)="onFilesChanged($event)"
+      />
+
+    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-4 sm:pl-2">
+      @for(image of tempImages(); track image){
+        <img [src]="image" alt="Temporal Image" class="w-full object-cover rounded">
+      }
+    </div>
+  </div>
+</form>
+@if(wasSaved()){
+  <div class="toast">
+    <div class="alert alert-success">
+      <span>New message arrived.</span>
+    </div>
+  </div>
+}

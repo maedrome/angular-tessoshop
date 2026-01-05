@@ -1,0 +1,21 @@
+<div class="card bg-base-100 shadow-sm animate-fadeIn">
+    <a [routerLink]="['/product',product().slug]">
+        <figure>
+            <img
+              [src]="product().images | productImage"
+              [alt]="product().title" />
+          </figure>
+    </a>
+    <div class="card-body">
+      <h2 class="card-title">
+        <a class="hover:underline" [routerLink]="['/product',product().slug]">{{product().title}}</a>
+        @for(tag of product().tags; track tag){
+          <div class="badge badge-secondary">{{tag | titlecase}}</div>
+        }
+      </h2>
+      <p>{{product().description | slice:0:120 }} ...</p>
+      <div class="card-actions justify-end">
+        <button class="btn btn-primary">Add To Cart</button>
+      </div>
+    </div>
+</div>
